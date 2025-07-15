@@ -1,0 +1,20 @@
+[Unit]
+Description=Lidar-Tank Application
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Start pigpiod as root
+ExecStartPre=/usr/bin/pigpiod
+# Start Python app as user in virtual environment
+ExecStart=/bin/bash -c 'source /home/TBD/lidar-tank/venv/bin/activate && python /home/TBD/lidar-tank/main.py'
+User=TBD
+Group=TBD
+WorkingDirectory=/home/TBD/lidar-tank
+Environment="VIRTUAL_ENV=/home/TBD/lidar-tank/venv"
+Environment="PATH=$VIRTUAL_ENV/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+[Install]
+WantedBy=multi-user.target
+
